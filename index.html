@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Agenda de Guardia Nocturna - Hospital San Martín</title>
+  <link rel="stylesheet" href="css/estilos.css">
+  <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.min.js"></script>
+</head>
+<body>
+<div class="container contenido">
+  <header>
+    <h1>Capacidad de Atención de la Guardia Nocturna</h1>
+    <p>Hospital San Martín de Catamarca · Laboratorio N°2 · Simulación Monte Carlo</p>
+  </header>
+
+  <!-- PLANTEO DEL PROBLEMA -->
+  <div class="card planteo">
+    <h2>Planteo del problema</h2>
+    <p>La dirección del hospital evalúa fijar una agenda estándar de <strong>20 pacientes por guardia</strong>
+    para un único médico en el turno nocturno de <strong>6 horas (360 min)</strong>. La duración de cada consulta varía
+    según la complejidad del paciente y la necesidad de estudios complementarios, por lo que se quiere saber si es
+    posible cumplir la agenda sin horas extra.</p>
+    <p class="hipotesis"><strong>Hipótesis:</strong> el médico de guardia logrará completar la atención de los 20 pacientes
+    dentro de las 6 horas del turno en al menos el <strong>85%</strong> de las jornadas simuladas
+    (26 o más de 30 días).</p>
+    <p><strong>Variables aleatorias (por paciente):</strong></p>
+    <ul>
+      <li><strong>X₁ Normal(μ, σ):</strong> duración de la consulta base.</li>
+      <li><strong>X₂ Bernoulli(p):</strong> si el paciente necesita estudios adicionales.</li>
+      <li><strong>X₃ Exponencial(EX):</strong> tiempo extra de los estudios (solo si X₂ = 1).</li>
+    </ul>
+    <p><strong>Variable de estado:</strong> tiempo acumulado de la jornada del médico.</p>
+  </div>
+
+  <!-- DATOS DE ENTRADA -->
+  <div class="card">
+    <h2>Datos del modelo</h2>
+    <p class="muted">Los valores iniciales son los del enunciado y se pueden modificar para probar la hipótesis con otros datos.</p>
+
+    <div class="form-grid">
+      <div class="form-group">
+        <label for="dias">Jornadas a simular (días)</label>
+        <input type="number" id="dias" value="30">
+        <div class="error-msg" id="err-dias"></div>
+      </div>
+      <div class="form-group">
+        <label for="pacientes">Pacientes en la agenda del médico</label>
+        <input type="number" id="pacientes" value="20">
+        <div class="error-msg" id="err-pacientes"></div>
+      </div>
+      <div class="form-group">
+        <label for="horas">Duración del turno (horas)</label>
+        <input type="number" id="horas" value="6" step="any">
+        <div class="error-msg" id="err-horas"></div>
+      </div>
+      <div class="form-group">
+        <label for="objetivo">% de jornadas que deben cumplir</label>
+        <input type="number" id="objetivo" value="85" step="any">
+        <div class="error-msg" id="err-objetivo"></div>
+      </div>
+      <div class="form-group">
+        <label for="muConsulta">Consulta base: media μ (min)</label>
+        <input type="number" id="muConsulta" value="12" step="any">
+        <div class="error-msg" id="err-muConsulta"></div>
+      </div>
+      <div class="form-group">
+        <label for="sigmaConsulta">Consulta base: desvío σ (min)</label>
+        <input type="number" id="sigmaConsulta" value="2" step="any">
+        <div class="error-msg" id="err-sigmaConsulta"></div>
+      </div>
+      <div class="form-group">
+        <label for="pEstudios">Proporción que necesita estudios p</label>
+        <input type="number" id="pEstudios" value="0.20" step="any">
+        <div class="error-msg" id="err-pEstudios"></div>
+      </div>
+      <div class="form-group">
+        <label for="exEstudios">Estudios: tiempo extra medio EX (min)</label>
+        <input type="number" id="exEstudios" value="10" step="any">
+        <div class="error-msg" id="err-exEstudios"></div>
+      </div>
+    </div>
+
+    <button class="btn btn-grande" onclick="ejecutar_simulacion()">Simular</button>
+    <div id="estado" class="estado"></div>
+  </div>
+
+  <!-- RESULTADOS (aparecen al simular) -->
+  <div id="resultados" style="display:none;">
+
+    <div class="card">
+      <h2 id="titulo-resultados">Resultados de la simulación</h2>
+      <div id="resultados-tabla"></div>
+    </div>
+
+    <div class="card">
+      <h2>Evaluación de la hipótesis</h2>
+      <div id="evaluacion-contenido"></div>
+    </div>
+
+    <div class="card">
+      <h2>Tiempo total de cada jornada</h2>
+      <div class="chart-container"><canvas id="chartJornadas"></canvas></div>
+    </div>
+
+    <div class="card">
+      <h2>Detalle de cada jornada</h2>
+      <div class="tabla-scroll" id="tabla-jornadas"></div>
+    </div>
+
+    <div class="card">
+      <h2>Cálculo paso a paso: primera jornada, paciente por paciente</h2>
+      <div class="tabla-scroll" id="tabla-detalle"></div>
+    </div>
+
+    <div class="card">
+      <h2>Uso de los números pseudoaleatorios</h2>
+      <div id="generador-contenido"></div>
+    </div>
+
+  </div>
+</div>
+
+<script src="js/generador.js"></script>
+<script src="js/validacion.js"></script>
+<script src="js/simulacion.js"></script>
+<script src="js/interfaz.js"></script>
+</body>
+</html>
