@@ -13,9 +13,9 @@
 }
 
 body {
-  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
-  background-color: var(--bg);
-  color: var(--text);
+  background-color: #d3e6ff;
+  font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  color: #1e293b;
   margin: 0;
   padding: 24px;
 }
@@ -238,3 +238,9 @@ th { background: #f8fafc; font-weight: 600; color: #475569; }
 .planteo ul { margin: 6px 0 10px 0; padding-left: 20px; }
 .planteo .hipotesis { background: #f0f9ff; border: 1px solid #bae6fd; border-radius: 8px; padding: 12px 14px; }
 .btn-grande { max-width: 360px; display: block; margin: 8px auto 0 auto; }
+
+.kpi-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 16px; margin-bottom: 20px; }
+.kpi-card { background: #151e31; border-radius: 12px; padding: 20px; border: 1px solid #ffffff; box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2); text-align: center; }
+.kpi-titulo { font-size: 0.875rem; font-weight: 600; text-transform: uppercase; letter-spacing: 0.05em; color: #ffffff; }
+.kpi-valor, .kpi-card.info .kpi-valor, .kpi-card.warning .kpi-valor { font-size: 2.2rem; font-weight: 800; display: block; margin: 8px 0; color: #ffffff !important; }
+.kpi-sub { font-size: 0.8rem; color: #ffffff; }
